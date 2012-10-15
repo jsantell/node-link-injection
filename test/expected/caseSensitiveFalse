@@ -1,0 +1,1 @@
+If caseSensitive is true, then both <a href='#AudioNode' title='AudioNode'>AudioNode</a> and <a href='#AudioNode' title='AudioNode'>audioNode</a> and <a href='#AudioNode' title='AudioNode'>audionode</a> should be transposed.

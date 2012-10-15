@@ -1,0 +1,1 @@
+If caseSensitive is true, then both AudioNode and audioNode and audionode should be transposed.
