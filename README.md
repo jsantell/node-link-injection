@@ -15,7 +15,7 @@ Parse text for keywords and replace with links for documentation
 
 ### Methods
 
-* `parse( text, map, options )` Parses string `text` replacing instances of map's keys with an anchor with an href to the key's value.
+* `parse( text, map, options )` Parses string `text` replacing instances of `map`'s keys with an anchor with an href to the key's value.
 
 ### Options
 
@@ -26,7 +26,10 @@ Parse text for keywords and replace with links for documentation
 ```javascript
 var
   inject = require( 'link-inject' ),
-  html = '<div>Modern browsers are now implementing a Float32Array type, which is a typed array version of an Array, except it only holds 32-bit floating point numbers. The <a href="#Float32Array">Float32Array</a> is frequently used in 3D WebGL applications and audio processing.</div>
+  html = '<div>Modern browsers are now implementing a Float32Array type, ' +
+    'which is a typed array version of an Array, except it only holds 32-bit ' +
+    'floating point numbers. The <a href="#Float32Array">Float32Array</a> is ' +
+    'frequently used in 3D WebGL applications and audio processing.</div>';
   // Using local links, but can be anything -- the keys' values are put into the href attribute
   map = {
     'Array' : '#Array',
@@ -37,10 +40,13 @@ var output = inject.parse( html, map );
 console.log( output );
 ```
 
-Outputs:
+Outputs (spacing added for viewing):
 ```html
 <div>
-Modern browsers are now implementing a <a href="#Float32Array" title="Float32Array">Float32Array</a> type, which is a typed array version of an <a href="#Array" title="Array">Array</a>, except it only holds 32-bit floating point numbers. The <a href="#Float32Array">Float32Array</a> is frequently used in 3D WebGL applications and audio processing.
+Modern browsers are now implementing a <a href="#Float32Array" title="Float32Array">Float32Array</a>
+type, which is a typed array version of an <a href="#Array" title="Array">Array</a>, except it
+only holds 32-bit floating point numbers. The <a href="#Float32Array">Float32Array</a>
+is frequently used in 3D WebGL applications and audio processing.
 </div>
 ```
 
