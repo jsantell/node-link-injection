@@ -1,5 +1,5 @@
 (function() {
-  var cheerio, defaults, isAnchorNested, makeRegex, parse, _;
+  var cheerio, defaults, makeRegex, parse, _;
 
   cheerio = require('cheerio');
 
@@ -10,17 +10,6 @@
     flags = 'g';
     if (!options.caseSensitive) flags += 'i';
     return new RegExp("\\b(" + keyword + ")\\b", flags);
-  };
-
-  isAnchorNested = function($el) {
-    var $parent;
-    if ($el.name === 'a') return false;
-    $parent = $el.parent();
-    while (!($parent === $el || $parent === null)) {
-      if ($parent.name === 'a') return false;
-      $parent = $parent.parent();
-    }
-    return true;
   };
 
   defaults = {

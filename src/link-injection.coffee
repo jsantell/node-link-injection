@@ -10,17 +10,6 @@ makeRegex = ( keyword, options ) ->
   # flags += 'g' if options.repeat is 0
   new RegExp "\\b(#{keyword})\\b", flags
 
-# Current text must not be nested inside of an anchor
-isAnchorNested = ( $el ) ->
-  return false if $el.name is 'a'
-
-  $parent = $el.parent()
-  until $parent is $el or $parent is null
-    return false if $parent.name is 'a'
-    $parent = $parent.parent()
-
-  return true
-
 defaults =
   caseSensitive: true
   repeat: 0

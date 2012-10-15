@@ -53,4 +53,4 @@ is frequently used in 3D WebGL applications and audio processing.
 Development
 ---
 
-Run `npm build` to build the coffee into JavaScript. Run `npm test` from project root -- requires `mocha` to be installed globally
+Run `make` in the project root to build the coffee into JavaScript. Run `npm test` from project root -- requires `mocha` to be installed globally
