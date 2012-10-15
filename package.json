@@ -1,7 +1,7 @@
 {
   "name" : "link-injection",
   "description" : "Parse text for keywords and replace with links for documentation",
-  "version" : "0.1.0",
+  "version" : "0.1.1",
   "main" : "link-injection.js",
   "dependencies" : {
     "cheerio" : ">= 0.10.1",
