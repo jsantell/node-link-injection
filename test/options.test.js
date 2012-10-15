@@ -21,7 +21,6 @@ describe( 'Case-sensitive', function () {
     var
       html = fs.readFileSync( 'test/data/caseSensitive', 'utf-8' ),
       output = inject.parse( html, map );
-    console.log(output);
     output.should.equal( expectedCaseSensitiveTrue );
   });
   it( 'should transpose regardless of case if case-sensitive is false', function () {
