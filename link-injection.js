@@ -7,7 +7,8 @@
 
   makeRegex = function(keyword, options) {
     var flags;
-    flags = options.caseSensitive ? 'g' : 'gi';
+    flags = 'g';
+    if (!options.caseSensitive) flags += 'i';
     return new RegExp("\\b(" + keyword + ")\\b", flags);
   };
 
@@ -28,16 +29,18 @@
   };
 
   parse = function(text, map, options) {
-    var $, descend, keywords, output, regexMap, replace;
+    var $, countMap, descend, keywords, output, regexMap, replace;
     if (text == null) text = '';
     if (map == null) map = {};
     options = _.extend({}, defaults, options != null ? options : {});
     keywords = Object.keys(map);
     regexMap = {};
+    countMap = {};
     output = '';
     $ = cheerio.load("<div class='link-injection-tag-class'>" + text + "</div>");
     keywords.forEach(function(keyword) {
-      return regexMap[keyword] = makeRegex(keyword, options);
+      regexMap[keyword] = makeRegex(keyword, options);
+      return countMap[keyword] = 0;
     });
     descend = function($el) {
       var $children;
@@ -52,7 +55,12 @@
     };
     replace = function(text) {
       _.each(regexMap, function(regex, keyword) {
-        return text = text.replace(regex, "<a href='" + map[keyword] + "' title='" + keyword + "'>$1</a>");
+        while (regex.test(text) && (countMap[keyword] < options.repeat || options.repeat === 0)) {
+          text = text.replace(regex, "<a href='" + map[keyword] + "' title='" + keyword + "'>$1</a>");
+          countMap[keyword]++;
+          if (options.repeat === 0) break;
+        }
+        return countMap[keyword] = 0;
       });
       return text;
     };

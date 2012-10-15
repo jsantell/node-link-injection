@@ -47,4 +47,4 @@ Modern browsers are now implementing a <a href="#Float32Array" title="Float32Arr
 Development
 ---
 
-Run `make` to build the coffee into JavaScript. Run `npm test` from project root -- requires `mocha` to be installed globally
+Run `npm build` to build the coffee into JavaScript. Run `npm test` from project root -- requires `mocha` to be installed globally

@@ -1,8 +1,13 @@
+# link-injection.coffee
+# (c) 2012 Jordan Santell; Licensed MIT
+
 cheerio = require 'cheerio'
 _ = require 'underscore'
 
 makeRegex = ( keyword, options ) ->
-  flags = if options.caseSensitive then 'g' else 'gi'
+  flags = 'g'
+  flags += 'i' unless options.caseSensitive
+  # flags += 'g' if options.repeat is 0
   new RegExp "\\b(#{keyword})\\b", flags
 
 # Current text must not be nested inside of an anchor
@@ -26,6 +31,7 @@ parse = ( text, map, options ) ->
   options = _.extend {}, defaults, options ? {}
   keywords = Object.keys map
   regexMap = {}
+  countMap = {}
   output = ''
 
   # Let's wrap our text in a div incase the text doesn't
@@ -34,6 +40,7 @@ parse = ( text, map, options ) ->
 
   keywords.forEach ( keyword ) ->
     regexMap[ keyword ] = makeRegex keyword, options
+    countMap[ keyword ] = 0
 
   descend = ( $el ) ->
     return if $el[0].type is 'tag' and $el[0].name is 'a'
@@ -49,7 +56,12 @@ parse = ( text, map, options ) ->
 
   replace = ( text ) ->
     _.each regexMap, ( regex, keyword ) ->
-      text = text.replace regex, "<a href='#{map[ keyword ]}' title='#{keyword}'>$1</a>"
+      # TODO A few checks for the repeat option, still in work
+      while regex.test( text ) and ( countMap[ keyword ] < options.repeat or options.repeat is 0 )
+        text = text.replace regex, "<a href='#{map[ keyword ]}' title='#{keyword}'>$1</a>"
+        countMap[ keyword ]++
+        break if options.repeat is 0
+      countMap[ keyword ] = 0
     return text
 
   descend $('.link-injection-tag-class')
